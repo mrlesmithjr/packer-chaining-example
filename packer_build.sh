@@ -6,6 +6,12 @@ PASSWORD="P@55w0rd"
 VM_NAME="ubuntu1804"
 MANIFEST="manifest.json"
 
+# Update http/preseed.cfg to match username/password
+sed -i "" "s/^d-i passwd\/user-fullname string.*/d-i passwd\/user-fullname string ${USERNAME}/g" http/preseed.cfg
+sed -i "" "s/^d-i passwd\/username string.*/d-i passwd\/username string ${USERNAME}/g" http/preseed.cfg
+sed -i "" "s/^d-i passwd\/user-password password.*/d-i passwd\/user-password password ${PASSWORD}/g" http/preseed.cfg
+sed -i "" "s/d-i passwd\/user-password-again password.*/d-i passwd\/user-password-again password ${PASSWORD}/g" http/preseed.cfg
+
 # Sets counter for loop of templates. Ensures that the first one is the actual
 # base image install.
 COUNTER=1
