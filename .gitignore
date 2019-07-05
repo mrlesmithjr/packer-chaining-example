@@ -1,0 +1,5 @@
+packer_cache/
+*virtualbox-iso*/
+*virtualbox-ovf*/
+*.box
+manifest.json

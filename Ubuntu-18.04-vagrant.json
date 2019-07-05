@@ -1,0 +1,47 @@
+{
+  "variables": {
+    "compression_level": "6",
+    "manifest": "",
+    "password": "",
+    "source_path": "",
+    "username": "",
+    "vm_name": ""
+  },
+  "builders": [
+    {
+      "headless": true,
+      "output_directory": "{{ user `vm_name` }}-{{ build_type }}-vagrant",
+      "vm_name": "{{ user `vm_name` }}-{{ build_type }}-vagrant",
+      "source_path": "{{ user `source_path` }}",
+      "ssh_password": "{{ user `password` }}",
+      "ssh_username": "{{ user `username` }}",
+      "ssh_timeout": "60m",
+      "boot_wait": "30s",
+      "shutdown_command": "sudo /sbin/halt -h -p",
+      "type": "virtualbox-ovf"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "scripts": [
+        "scripts/vagrant.sh",
+        "scripts/cleanup.sh",
+        "scripts/zerodisk.sh"
+      ]
+    }
+  ],
+  "post-processors": [
+    {
+      "compression_level": "{{ user `compression_level` }}",
+      "keep_input_artifact": true,
+      "output": "{{ user `vm_name` }}-{{ build_type }}.box",
+      "type": "vagrant"
+    },
+    {
+      "type": "manifest",
+      "output": "{{ user `manifest` }}",
+      "strip_path": false
+    }
+  ]
+}
